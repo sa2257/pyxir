@@ -36,6 +36,7 @@ def xgraph_dpu_zcu104_build_func(xgraph, work_dir=os.getcwd(), **kwargs):
     # DPU layers are in NHWC format because of the tensorflow
     #   intemediate structure we use to communicate with
     #   DECENT/DNNC
+    logger.info("xgraph zcu104 build func pass in %r.", os.path.abspath(__file__))
 
     return subgraph.xgraph_build_func(
         xgraph=xgraph,
@@ -47,6 +48,7 @@ def xgraph_dpu_zcu104_build_func(xgraph, work_dir=os.getcwd(), **kwargs):
 
 
 def xgraph_dpu_zcu104_compiler(xgraph, **kwargs):
+    logger.info("xgraph zcu104 compiler pass in %r.", os.path.abspath(__file__))
     if is_dpuczdx8g_vart_flow_enabled():
         arch_path = "/opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU104/arch.json"
         compiler = VAICompiler(xgraph, arch=arch_path, **kwargs)

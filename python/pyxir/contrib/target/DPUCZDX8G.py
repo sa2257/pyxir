@@ -30,6 +30,8 @@ from .components.DPUCZDX8G.som import xgraph_dpu_som_build_func
 from .components.DPUCZDX8G.som import xgraph_dpu_som_compiler
 
 
+import os
+print("Register targets in ", os.path.abspath(__file__))
 
 # Register target
 pyxir.register_target('DPUCZDX8G-ultra96',

@@ -14,6 +14,7 @@
 
 """Module for registering common DPUCZDX8G functionality"""
 
+import os
 import logging
 
 from pyxir.target import Target, DefaultOpSupportPass
@@ -41,10 +42,12 @@ class OpSupportPass(DefaultOpSupportPass):
 
 
 def xgraph_dpu_op_support_annotator(xgraph: XGraph, target: Target, **kwargs) -> None:
+    logger.info("xgraph op support pass in %r.", os.path.abspath(__file__))
     OpSupportPass(target)(xgraph)
 
 
 def xgraph_dpu_optimizer(xgraph, target=None, **kwargs):
+    logger.info("xgraph optimizer pass in %r.", os.path.abspath(__file__))
     XGraphPatternAnnotator()(xgraph)
     xgraph = XGraphPatternMutator()(xgraph)
 
@@ -57,6 +60,7 @@ def xgraph_dpu_optimizer(xgraph, target=None, **kwargs):
 
 
 def xgraph_dpu_quantizer(xgraph, inputs_func, **kwargs):
+    logger.info("xgraph quantizer pass in %r.", os.path.abspath(__file__))
     quantizer = DECENTQuantizer(xgraph, inputs_func, compiler_target="xcompiler", **kwargs) \
         if is_dpuczdx8g_vart_flow_enabled() \
         else DECENTQuantizer(xgraph, inputs_func, **kwargs)
