@@ -150,30 +150,30 @@ def image_resize2d(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer
 
     h_index, w_index = layout.index("H"), layout.index("W")
     in_h, in_w = in_shape[h_index], in_shape[w_index]
-    if (
-        coordinate_transformation_mode == "asymmetric"
-        and rounding_method == ""
-        and cubic_alpha == -0.5
-        and cubic_exclude == 0
-    ):
-        scale_h, scale_w = out_h / in_h, out_w / in_w
-        X = px.ops.upsampling2d(
-            op_name,
-            in_xlayers,
-            scale_h=scale_h,
-            scale_w=scale_w,
-            data_layout=layout,
-            method=method,
-            relay_id=[hash(expr)],
-        )
-    else:
-        # AnyOp
-        out_shape = in_shape.tolist()
-        out_shape[h_index] = out_h
-        out_shape[w_index] = out_w
-        X = px.ops.any_op(
-            op_name, in_xlayers, any_shape=out_shape[:], relay_id=[hash(expr)]
-        )
+    condition  = coordinate_transformation_mode == "asymmetric" and rounding_method == "" and cubic_alpha == -0.5 and cubic_exclude == 0
+    # if (
+    #     condition
+    # ):
+    logging.info("PYXIR MODIFICATION: %r conversion is %r before modification", op_name, condition)
+    logging.debug("transformation mode %r, rounding %r, alpha %r, exclude %r", coordinate_transformation_mode, rounding_method, cubic_alpha, cubic_exclude)
+    scale_h, scale_w = out_h / in_h, out_w / in_w
+    X = px.ops.upsampling2d(
+        op_name,
+        in_xlayers,
+        scale_h=scale_h,
+        scale_w=scale_w,
+        data_layout=layout,
+        method=method,
+        relay_id=[hash(expr)],
+    )
+    # else:
+    #     # AnyOp
+    #     out_shape = in_shape.tolist()
+    #     out_shape[h_index] = out_h
+    #     out_shape[w_index] = out_w
+    #     X = px.ops.any_op(
+    #         op_name, in_xlayers, any_shape=out_shape[:], relay_id=[hash(expr)]
+    #     )
 
     logger.debug("-- outshape: {}".format(list(X.shapes)))
     logging.info("Convert %r to %r in relay_l5", X.name, X.type[0])
