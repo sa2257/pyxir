@@ -97,6 +97,9 @@ def nn_adaptive_avg_pool2d(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -
     )
     logger.debug("-- outshape: {}".format(list(X.shapes)))
 
+    logging.info("Convert %r to %r in relay_l10", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -130,4 +133,7 @@ def slice_like(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     logger.debug("--newshape: {}".format(new_shape))
     X = px.ops.any_op(op_name, in_xlayers, any_shape=new_shape, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l10", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X

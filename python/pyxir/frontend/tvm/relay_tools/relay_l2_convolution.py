@@ -138,6 +138,9 @@ def nn_avg_pool2d(expr: Expr,
     else:
         res_X = X
 
+    logging.info("Convert %r to %r in relay_l2", res_X.name, res_X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(res_X)
     return res_X
 
 
@@ -155,6 +158,9 @@ def nn_batch_flatten(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLay
             The input data to the operator.
     """
     X = px.ops.batch_flatten(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l2", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -296,6 +302,9 @@ def nn_conv2d(expr: Expr,
     else:
         res_X = X
 
+    logging.info("Convert %r to %r in relay_l2", res_X.name, res_X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(res_X)
     return res_X
 
 
@@ -446,6 +455,9 @@ def nn_conv2d_transpose(expr: Expr,
     # !Important: set input layer tops:
     data_layer.tops.append(op_name)
 
+    logging.info("Convert %r to %r in relay_l2", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -528,6 +540,9 @@ def nn_global_avg_pool2d(expr: Expr,
     else:
         res_X = X
 
+    logging.info("Convert %r to %r in relay_l2", res_X.name, res_X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(res_X)
     return res_X
 
 
@@ -610,6 +625,9 @@ def nn_global_max_pool2d(expr: Expr,
     else:
         res_X = X
 
+    logging.info("Convert %r to %r in relay_l2", res_X.name, res_X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(res_X)
     return res_X
 
 
@@ -705,6 +723,9 @@ def nn_max_pool2d(expr: Expr,
     else:
         res_X = X
 
+    logging.info("Convert %r to %r in relay_l2", res_X.name, res_X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(res_X)
     return res_X
 
 
@@ -741,6 +762,9 @@ def pad(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     logger.debug("-- pad value: {}".format(pad_value))
 
     X = px.ops.pad(op_name, in_xlayers[0], pad_width, pad_value, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l2", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -795,4 +819,7 @@ def nn_upsampling(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
         relay_id=[hash(expr)]
     )
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l2", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X

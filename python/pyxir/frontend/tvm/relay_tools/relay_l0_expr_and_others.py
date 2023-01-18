@@ -81,6 +81,9 @@ def function(expr: Expr,
         schedule.append(expr.body)
         net[expr.body] = X
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -116,6 +119,9 @@ def call(expr: Expr,
     X = RELAY_2_XLAYER[op_type](expr, params, schedule, net, op_idx,
                                 RELAY_2_XLAYER, **kwargs)
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -151,6 +157,9 @@ def layout_transform(op_name: str, expr: Expr, in_xlayers: List[XLayer]):
         newshape = [in_shape[i] for i in transpose_axes]
         X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -198,6 +207,9 @@ def tuple_expr(expr: Expr,
     for data_layer in data_layers:
         data_layer.tops.append(X.name)
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -278,6 +290,9 @@ def tuple_get_item(expr: Expr,
                          " type: {}, but should be of type TupleShape or"
                          " TensorShape".format(type(child_layer.shapes)))
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -332,6 +347,9 @@ def constant(expr: Expr,
     X = xlf.get_xop_factory_func('Constant')(op_name, value,
                                              relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -414,6 +432,9 @@ def var(expr: Expr,
                                                 dtype,
                                                 relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -460,4 +481,7 @@ def relay_op(op_name: str, expr: Expr, in_xlayers: List[XLayer]):
                                             relay_id=[hash(expr)],
                                             **attrs)
 
+    logging.info("Convert %r to %r in relay_l0", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X

@@ -55,6 +55,9 @@ def greater(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The right hand side input data
     """
     X = px.ops.greater(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l4", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -95,6 +98,9 @@ def mean(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     X = px.ops.mean(op_name, in_xlayers[0], axis, keepdims, exclude, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l4", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
     
@@ -114,6 +120,9 @@ def maximum(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The right hand side input data
     """
     X = px.ops.maximum(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l4", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -160,6 +169,9 @@ def strided_slice(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     X = px.ops.strided_slice(op_name, in_xlayers, begin=begin, end=attrs_end, strides=strides,
                              slice_mode=slice_mode, axes=axes, relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l4", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -186,4 +198,7 @@ def where(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     rshape = list(in_xlayers[2].shapes[:])
     shape = broadcast_shapes(broadcast_shapes(lshape, rshape), cshape)
     X = px.ops.any_op(op_name, in_xlayers, any_shape=shape, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l4", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X

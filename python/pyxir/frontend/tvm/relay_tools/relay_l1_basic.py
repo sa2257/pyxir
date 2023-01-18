@@ -173,6 +173,9 @@ def add(expr: Expr,
         lhs_layer.tops.append(X.name)
         rhs_layer.tops.append(X.name)
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -300,6 +303,9 @@ def nn_batch_norm(expr: Expr,
     # !Important: set input layer tops:
     data_layer.tops.append(op_name)
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -355,6 +361,9 @@ def nn_bias_add(expr: Expr,
     # !Important: set input layer tops:
     data_layer.tops.append(op_name)
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -417,6 +426,9 @@ def concatenate(expr: Expr,
     for data_layer in data_layers:
         data_layer.tops.append(X.name)
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -486,6 +498,9 @@ def nn_dense(expr: Expr,
     # !Important: set input layer tops:
     data_layer.tops.append(op_name)
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -507,6 +522,9 @@ def nn_dropout(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     rate = float(expr.attrs.rate)
     X = px.ops.dropout(op_name, in_xlayers[0], rate, relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -524,6 +542,9 @@ def exp(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The input data to the operator.
     """
     X = px.ops.exp(op_name, in_xlayers, relay_id=hash(expr))
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -553,6 +574,9 @@ def expand_dims(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     X = px.ops.expand_dims(op_name, in_xlayers, axis=axis, num_newaxis=num_newaxis,
                            relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -572,6 +596,9 @@ def log(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     X = xlf.get_xop_factory_func('Log')(op_name, in_xlayers,
                                         relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -690,6 +717,9 @@ def multiply(expr: Expr,
         # !Important: set input layer tops:
         rhs_layer.tops.append(X.name)
 
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -756,6 +786,9 @@ def nn_relu(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     """
     X = px.ops.relu(op_name, in_xlayers, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -773,6 +806,9 @@ def rsqrt(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The input data to the operator.
     """
     X = px.ops.rsqrt(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -790,6 +826,9 @@ def sigmoid(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The input data to the operator.
     """
     X = px.ops.sigmoid(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -811,6 +850,9 @@ def nn_softmax(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     axis = int(expr.attrs.axis)
     X = px.ops.softmax(op_name, in_xlayers, axis=axis, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -828,6 +870,9 @@ def sqrt(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The input data to the operator.
     """
     X = px.ops.sqrt(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -847,4 +892,7 @@ def subtract(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
             The right hand side input data
     """
     X = px.ops.sub(op_name, in_xlayers, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l1", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X

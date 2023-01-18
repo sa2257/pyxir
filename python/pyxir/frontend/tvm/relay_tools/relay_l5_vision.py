@@ -97,6 +97,9 @@ def image_resize(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
         )
 
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l5", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -173,6 +176,9 @@ def image_resize2d(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer
         )
 
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l5", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -194,6 +200,9 @@ def yolo_reorg(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     stride = int(expr.attrs.stride)
     X = px.ops.yolo_reorg(op_name, in_xlayers[0], stride, "NCHW", relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l5", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -230,6 +239,9 @@ def vision_get_valid_counts(
         any_shape=[valid_count_shape, out_tensor_shape, out_indices_shape],
         relay_id=[hash(expr)],
     )
+    logging.info("Convert %r to %r in relay_l5", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -290,4 +302,7 @@ def vision_nms(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
         newshape = [[data_shape[0], data_shape[1]], [data_shape[0], -1]]
 
     X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l5", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X

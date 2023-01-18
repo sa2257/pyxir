@@ -66,6 +66,9 @@ def tile(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
     
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 @register_relay_2_xlayer_converter_base('full')
@@ -99,6 +102,9 @@ def full(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
     
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 @register_relay_2_xlayer_converter_base('arange')
@@ -143,6 +149,9 @@ def arange(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -163,6 +172,9 @@ def cast(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     """
     dtype = str(expr.attrs.dtype)
     X = px.ops.cast(op_name, in_xlayers, dtype=dtype, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -188,6 +200,9 @@ def cast(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     logger.debug("clip: {}".format(op_name))
     X = px.ops.clip(op_name, in_xlayers[0], a_min, a_max, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -207,6 +222,9 @@ def ones_like(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     assert len(in_xlayers) == 1
     newshape = list(in_xlayers[0].shapes[:])
     X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -227,6 +245,9 @@ def nn_leaky_relu(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     """
     alpha = float(expr.attrs.alpha)
     X = px.ops.leaky_relu(op_name, in_xlayers, alpha=alpha, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -248,6 +269,9 @@ def nn_prelu(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     assert len(in_xlayers) == 2
     axis = int(expr.attrs.axis) if expr.attrs.axis is not None else 1
     X = px.ops.prelu(op_name, in_xlayers, axis=axis, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -283,6 +307,9 @@ def repeat(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     X = px.ops.any_op(op_name, in_xlayers, any_shape=shape, relay_id=[hash(expr)])
 
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -388,6 +415,9 @@ def reshape(expr: Expr,
         # !Important: set input layer tops:
         data_layer.tops.append(op_name)
 
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -427,6 +457,9 @@ def split(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
 
     X = px.ops.split(op_name, in_xlayers, axis=axis, indices=indices, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 @register_relay_2_xlayer_converter_base('squeeze')
@@ -449,6 +482,9 @@ def squeeze(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     expr_axis = expr.attrs.axis
     axis = [int(e) for e in list(expr_axis)] if expr_axis is not None else None
     X = px.ops.squeeze(op_name, in_xlayers[0], axis, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -479,6 +515,9 @@ def take(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     mode = str(expr.attrs.mode)
     X = px.ops.take(op_name, in_xlayers, axis=axis, mode=mode, relay_id=[hash(expr)])
     logger.debug("-- outshape: {}".format(list(X.shapes)))
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 # TODO Move Transpose to this API
@@ -592,6 +631,9 @@ def transpose(expr: Expr,
         # !Important: set input layer tops:
         data_layer.tops.append(op_name)
 
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
 
@@ -611,5 +653,8 @@ def zeros_like(op_name: str, expr: Expr, in_xlayers: List[XLayer]) -> XLayer:
     assert len(in_xlayers) == 1
     newshape = list(in_xlayers[0].shapes[:])
     X = px.ops.any_op(op_name, in_xlayers, any_shape=newshape, relay_id=[hash(expr)])
+    logging.info("Convert %r to %r in relay_l3", X.name, X.type[0])
+    logging.debug("X layer is,")
+    logging.debug(X)
     return X
 
