@@ -20,6 +20,9 @@ from typing import List, Callable
 
 from .target import Target
 
+import os
+import logging
+logger = logging.getLogger("pyxir")
 
 class TargetRegistry(object):
 
@@ -58,6 +61,7 @@ class TargetRegistry(object):
 
         def check_target(self, target: str):
             """ Check whether the target exists """
+            logger.info("Check if %r exists in %r.", target, os.path.abspath(__file__))
             if not self.is_target(target):
                 # Try importing it on the fly
                 try:

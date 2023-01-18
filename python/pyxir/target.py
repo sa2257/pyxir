@@ -22,6 +22,9 @@ from typing import Callable
 from .graph import XGraph, XLayer
 from .graph.passing import XGraphVisitor, pass_factory
 
+import os
+import logging
+logger = logging.getLogger("pyxir")
 
 class DefaultOpSupportPass(XGraphVisitor):
     """The default operation support pass"""
@@ -121,6 +124,7 @@ class Target(object):
 
     def annotate_supported_ops(self, xg: XGraph) -> None:
         """Method for annotating supported operations in an XGraph"""
+        logger.info("Annotate supported ops in %r.", os.path.abspath(__file__))
         self.xgraph_op_support_annotator(xg, self)
 
     def can_execute(self, X, bottom_Xs, top_Xs):
@@ -131,6 +135,7 @@ class Target(object):
         """
 
         X_type = X.type[0]
+        logger.info("Check if %r can execute in %r.", X_type, os.path.abspath(__file__))
 
         if X_type not in self.xop_2_check_func:
             if 'All' in self.xop_2_check_func:
