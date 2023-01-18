@@ -15,6 +15,7 @@
 """Module for transforming TVM Relay expression to XGraph representation"""
 
 import tvm
+import os
 import logging
 
 from pyxir.shared import fancy_logging
@@ -42,6 +43,7 @@ def from_relay(sym,
     # type: (tvm.relay.module.Module/tvm.relay.expr.Function, dict,
     #   str, str, str) -> XGraph
     """ Main function to import a Relay expression """
+    logger.info("Convert relay to xgraph in %r.", os.path.abspath(__file__))
     if isinstance(sym, tvm.ir.module.IRModule):
         sym = sym.functions[sym.get_global_var('main')]
     if not isinstance(sym, tvm.relay.function.Function):

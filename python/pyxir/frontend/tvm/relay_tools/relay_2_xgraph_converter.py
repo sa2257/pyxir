@@ -15,6 +15,7 @@
 
 """Module for transforming TVM Relay expression to XGraph representation"""
 
+import os
 import logging
 
 from pyxir import graph
@@ -71,6 +72,7 @@ class Relay2XGraphConverter(BaseConverter):
             the graph data structure containing all information
         """
 
+        logger.info("Convertion from relay to xgraph in %r.", os.path.abspath(__file__))
         if postprocessing is None:
             postprocessing = []
         if cvx_preprocessing is None:
@@ -86,6 +88,8 @@ class Relay2XGraphConverter(BaseConverter):
         schedule = Schedule(net)
         # CONVERT RELAY EXPRESSION TO XLAYER GRAPH
         # This starts a rescursive expression to graph conversion function
+        logger.debug("Start recursively converting for,")
+        logger.debug(sym)
         X = Relay2XGraphConverter.RELAY_2_XLAYER[sym.__class__.__name__](
             sym,
             params,

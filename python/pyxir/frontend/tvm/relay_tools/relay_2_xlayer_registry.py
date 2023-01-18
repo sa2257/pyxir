@@ -14,6 +14,7 @@
 
 """Data structure for registering and tracking Relay to XLayer converters"""
 
+import os
 import logging
 
 logger = logging.getLogger('pyxir')
@@ -79,6 +80,7 @@ def register_relay_2_xlayer_converter(relay_op):
     """
     Return decorator for converting a relay operation to an XLayer
     """
+    logger.info("Register converter for %r in %r.", relay_op, os.path.abspath(__file__))
 
     registry = Relay2XLayerRegistry()
 
