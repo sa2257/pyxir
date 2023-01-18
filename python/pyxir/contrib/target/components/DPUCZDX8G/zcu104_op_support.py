@@ -17,6 +17,7 @@ Module for declaring and specifying supported operations for the DPUCZDX8G-zcu10
 See https://www.xilinx.com/html_docs/vitis_ai/1_3/compiling_model.html#ztl1570696058091
 """
 
+import os
 import math
 import logging
 import pyxir
@@ -36,7 +37,7 @@ from pyxir.contrib.target.components.common.op_support import (
 )
 
 logger = logging.getLogger("pyxir")
-
+print("zcu104 op support check in ", os.path.abspath(__file__))
 
 @pyxir.register_op_support_check("DPUCZDX8G-zcu104", "BatchNorm")
 def batchnorm_op_support(X: XLayer, bXs: List[XLayer], tXs: List[XLayer]) -> bool:

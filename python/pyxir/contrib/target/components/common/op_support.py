@@ -16,9 +16,12 @@
 
 import math
 from typing import List
-
+import os
+import logging
+logger = logging.getLogger("pyxir")
 from pyxir.graph import XLayer
 
+print("common op support check in ", os.path.abspath(__file__))
 
 def is_batch_norm_supported(
     X: XLayer,
