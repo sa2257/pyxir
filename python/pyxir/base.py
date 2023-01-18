@@ -72,6 +72,7 @@ def stringify(name: str):
 def transform_layout(xgraph: XGraph, layout: str):
     """ Transform the layout of the XGraph model to the given layout """
 
+    logger.info("Transform to %r layout in %r.", layout, os.path.abspath(__file__))
     if layout not in ['NCHW', 'NHWC']:
         raise ValueError("Unsupported layout for model: {}. The supported"
                          " layouts are: `NCHW` and `NHWC`".format(layout))
@@ -85,8 +86,11 @@ def transform_layout(xgraph: XGraph, layout: str):
 def partition(xgraph: XGraph, targets: List[str], last_layer: str=None) -> XGraph:
     """Partition the model for the given targets"""
 
+    logger.info("Send to partition for target in %r.", os.path.abspath(__file__))
     target_registry.check_targets(targets)
     target_registry.annotate_ops(xgraph)
+    logger.info("Targets are %r", targets)
+    logger.info("Last layer is %r", last_layer)
 
     p_xgraph = xgraph_partitioner.partition(xgraph, targets, last_layer)
     return p_xgraph
@@ -99,6 +103,8 @@ def partition_opaque_func(xgraph: XGraph,
                           last_layer: str = None):
     """Expose the XGraph partition function an opaque function
        so it can be called from both Python and C++"""
+    
+    logger.info("Transition to pyxir for partitioning to %r.", os.path.abspath(__file__))
 
     if last_layer == "":
         last_layer = None
@@ -194,6 +200,9 @@ def compile_opaque_func(xgraph: XGraph,
     cb_scheduled_xgraph: XGraph
         return the scheduled XGraph
     """
+      
+    logger.info("Transition to pyxir for compiling to %r.", os.path.abspath(__file__))
+
     in_tensor_names = [stringify(itn) for itn in in_tensor_names]
     out_tensor_names = [stringify(otn) for otn in out_tensor_names]
 
@@ -283,6 +292,8 @@ def quantization_opaque_func(xgraph: XGraph,
     in_tensors: List[XBuffer]
         The input tensors (in the same order as the )
     """
+    
+    logger.info("Transition to pyxir for quantizing in %r.", os.path.abspath(__file__))
 
     def inputs_func(iter):
         inputs = {in_name: it.to_numpy()
@@ -388,6 +399,9 @@ def build_rt_opaque_func(xgraph: XGraph,
         executes the model. This enables runtime modules in both C++ and
         Python.
     """
+      
+    logger.info("Transition to pyxir to build runtime in %r.", os.path.abspath(__file__))
+
     in_tensor_names = [stringify(itn) for itn in in_tensor_names]
     out_tensor_names = [stringify(otn) for otn in out_tensor_names]
 
@@ -468,7 +482,8 @@ def build_online_quant_rt_opaque_func(xgraph: XGraph,
         function that takes a list of input buffers and output buffers and
         executes the model in CPU.
     """
-
+  
+    logger.info("Transition to pyxir for on-the-fly quantization in %r.", os.path.abspath(__file__))
     logger.info("Build On-the-fly quantization rt func")
 
     in_tensor_names = [stringify(itn) for itn in in_tensor_names]

@@ -15,6 +15,7 @@
 """Module for partitioning XGraph objects"""
 
 import copy
+import os
 import logging
 
 from typing import List
@@ -93,6 +94,7 @@ class XGraphPartitioner(object):
         # Partitions that depend on eachother can't be merged together
         partition_dep_map = {}
 
+        logger.info("Partition for given target in %r.", os.path.abspath(__file__))
         logger.debug("Partition for target: {}".format(target))
 
         stop_partitioning = False
