@@ -104,7 +104,9 @@ class TargetRegistry(object):
         def annotate_ops(self, xg) -> None:
             """Method for annotating operations in the provided XGraph with supported targets"""
             for target in self.get_targets():
+                logger.info("Send graph for op annotation in %r.", os.path.abspath(__file__))
                 target.annotate_supported_ops(xg)
+                logger.debug("Registered ops are %r.", target.get_supported_op_checks_names())
 
         def register_target(self,
                             target: str,

@@ -36,7 +36,9 @@ class DefaultOpSupportPass(XGraphVisitor):
     def visit(self, X: XLayer) -> None:
         bottom_Xs = self.xgraph.get_bottom_layers(X.name)
         top_Xs = self.xgraph.get_top_layers(X.name)
-        if self.target.can_execute(X, bottom_Xs, top_Xs):
+        condition = self.target.can_execute(X, bottom_Xs, top_Xs)
+        logger.debug("Check if %r can execute: %r in %r.", X.name, condition, os.path.abspath(__file__))
+        if condition:
             X.targets.append(self.target.name)
 
 
@@ -114,6 +116,7 @@ class Target(object):
                              " operation has already been registered"
                              .format(xop_name))
 
+        logger.debug("Add %r to %r supported functions.", xop_name, self.name)
         self.xop_2_check_func[xop_name] = check_func
 
     def get_supported_op_checks_names(self):
@@ -135,9 +138,9 @@ class Target(object):
         """
 
         X_type = X.type[0]
-        logger.info("Check if %r can execute in %r.", X_type, os.path.abspath(__file__))
-
-        if X_type not in self.xop_2_check_func:
+        condition = X_type not in self.xop_2_check_func
+        logger.debug("Is %r not supported for %r? %r", X_type, self.name, condition)
+        if condition:
             if 'All' in self.xop_2_check_func:
                 return self.xop_2_check_func['All'](X, bottom_Xs, top_Xs)
             return False
