@@ -61,8 +61,8 @@ class XGraphOptimizationPass(XGraphBasePass):
         opt_kwargs_lst = [opt['kwargs'] for opt in self.optimizations]
 
         # Execute all optimization passes
-        # for opt_params in self.optimizations:
-        #    logger.debug("-- opt: {}".format(opt_params['name']))
+        for opt in self.optimizations:
+           logger.debug("-- opt: {}".format(opt['name']))
 
         xgraph = self._optimization_layer_pass(
             xgraph=xgraph,

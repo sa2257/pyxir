@@ -198,6 +198,8 @@ class XGraphLayoutTransformationPass(XGraphBasePass):
 
         fancy_logger.banner("LAYOUT TRANSFORMATION PASS")
 
+        logger.info("xgraph layout transformation in %r.", os.path.abspath(__file__))
+
         output_png = self.output_png.replace(".", "layout_transformation.")\
             if self.output_png is not None else None
         xgraph = self._replace_layer_pass(
@@ -208,6 +210,7 @@ class XGraphLayoutTransformationPass(XGraphBasePass):
         )
 
         # Merge transpose layers
+        logger.info("Call xgraph layout transformation optimization")
         t_optimizer = XGraphTransposesOptimizer(xgraph, target=self.target)
         t_optimizer.optimize()
 

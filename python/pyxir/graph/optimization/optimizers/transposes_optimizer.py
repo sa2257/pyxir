@@ -18,6 +18,7 @@ Module responsible for basic optimization of XGraph structures
 
 """
 
+import os
 import logging
 
 from .. import optimizations, conditions
@@ -34,6 +35,7 @@ class XGraphTransposesOptimizer(XGraphBaseOptimizer):
     """
 
     def __init__(self, xgraph, target=None, copy=False, opt_name=''):
+        logger.info("Set xgraph layout transformation optimization in %r.", os.path.abspath(__file__))
         super(XGraphTransposesOptimizer, self).__init__(xgraph, copy)
 
         # 1. Merge transposes

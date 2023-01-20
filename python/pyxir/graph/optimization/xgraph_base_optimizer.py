@@ -15,6 +15,7 @@
 """Module responsible for optimizing XGraph objects"""
 
 import copy
+import os
 import logging
 
 from pyxir.graph import XGraph, XLayer
@@ -54,6 +55,7 @@ class XGraphBaseOptimizer(object):
     def optimize(self) -> XGraph:
         """Start optimization"""
 
+        logger.info("xgraph optimization in %r.", os.path.abspath(__file__))
         xgraph = self.xgraph
 
         for idx, (level, opt_passes) in enumerate(

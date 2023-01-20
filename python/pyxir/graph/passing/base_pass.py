@@ -16,6 +16,7 @@
 
 import abc
 import copy
+import os
 import logging
 import warnings
 
@@ -159,6 +160,7 @@ class XGraphBasePass(object):
         """
 
         name = name if name is not None else xgraph.get_name()
+        logger.info("replace layer pass on %r in %r.", name, os.path.abspath(__file__))
 
         # For mapping layers to the correct bottoms if layers are
         #   replaced/removed
@@ -312,6 +314,8 @@ class XGraphBasePass(object):
         # Enable executing a pass repeatedly if necessary
         while do_pass:
 
+            name = name if name is not None else xgraph.get_name()
+            logger.info("do optimize pass on %r in %r.", name, os.path.abspath(__file__))
             lx = len(xgraph)
             changes_done = False
             for X_name in xgraph.get_layer_names():

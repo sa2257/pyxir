@@ -51,9 +51,11 @@ def xgraph_dpu_optimizer(xgraph, target=None, **kwargs):
     XGraphPatternAnnotator()(xgraph)
     xgraph = XGraphPatternMutator()(xgraph)
 
+    logger.debug("Call xgraph layout transformer")
     layout_transform_pass = XGraphLayoutTransformationPass('NHWC', target=target)
     dpu_xgraph = layout_transform_pass.execute(xgraph, subgraphs_only=False)
     
+    logger.debug("Call xgraph layout optimizer")
     optimizer = XGraphTfGeneratorOptimizer(dpu_xgraph)
     optimizer.optimize()
     return dpu_xgraph
