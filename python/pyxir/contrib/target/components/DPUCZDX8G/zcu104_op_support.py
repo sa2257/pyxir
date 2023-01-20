@@ -234,3 +234,17 @@ def dropout_op_support(X: XLayer, bXs: List[XLayer], tXs: List[XLayer]) -> bool:
     """Check whether we can execute the provided Dropout operator
     on the DPUCZDX8G-zcu104 target"""
     return True
+
+@pyxir.register_op_support_check("DPUCZDX8G-zcu104", "Sigmoid")
+def sigmoid_op_support(X: XLayer, bXs: List[XLayer], tXs: List[XLayer]) -> bool:
+    """Check whether vitis ai can execute the provided Sigmoid operator
+    on the DPUCZDX8G-zcu104 target"""
+    logging.info("PYXIR MODIFICATION: Sigmoid support is False before modification")
+    return True
+
+@pyxir.register_op_support_check("DPUCZDX8G-zcu104", "Multiply")
+def multiply_op_support(X: XLayer, bXs: List[XLayer], tXs: List[XLayer]) -> bool:
+    """Check whether vitis ai can execute the provided Multiply operator
+    on the DPUCZDX8G-zcu104 target"""
+    logging.info("PYXIR MODIFICATION: Multiply support is False before modification")
+    return True
