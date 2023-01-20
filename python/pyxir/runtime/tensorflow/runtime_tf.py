@@ -18,6 +18,7 @@ import copy
 import warnings
 import numpy as np
 import tensorflow as tf
+import os
 import logging
 
 from typing import List
@@ -84,6 +85,7 @@ class RuntimeTF(BaseRuntime):
     def init_tf_graph(self, net):
         # type: (List[RtLayer]) -> None
         fancy_logger.banner("INIT TF NET")
+        logger.info("initialize tf network runtime in %r.", os.path.abspath(__file__))
 
         self.tf_inputs = set()
         self.tf_tensors = {}

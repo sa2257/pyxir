@@ -395,6 +395,48 @@ class ExpandDimsLayer(rt_layer.BaseLayer, RtLayerTF):
             return sess.run(self.res, feed_dict={self.inpt: inputs[0]})
 
 
+###########
+# Multiply #
+###########
+
+
+@rt_register_xlayer_2_tf("Multiply")
+class MultiplyLayer(rt_layer.BaseLayer, RtLayerTF):
+    """Multiply: """
+    logging.info("PYXIR MODIFICATION: Multiply op was not supported for tf runtime.")
+
+    def init(self) -> None:
+        # type: () -> None
+        assert len(self.inputs) == 2
+        logger.debug("Multiply START")
+
+        self.left = tf.compat.v1.placeholder(
+            RtLayerTF.dtype_to_tf[self.dtype], shape=self.input_shapes[0]
+        )
+        self.right = tf.compat.v1.placeholder(
+            RtLayerTF.dtype_to_tf[self.dtype], shape=self.input_shapes[1]
+        )
+
+        self.inpts = [self.left, self.right]
+        self.res = self.get_output_tensors(self.inpts)[0]
+        logger.debug("Multiply res shape: {}".format(self.res.shape))
+
+    def get_output_tensors(self, inpts: List[tf.Tensor], **kwargs) -> tf.Tensor:
+
+        assert len(inpts) == 2
+        left, right = inpts[0], inpts[1]
+
+        return [tf.multiply(left, right, name=self.name)]
+
+    def forward_exec(self, inputs: List[np.ndarray]) -> np.ndarray:
+
+        assert len(inputs) == 2
+
+        with tf.compat.v1.Session() as sess:
+            feed_dict = {self.inpts[0]: inputs[0], self.inpts[1]: inputs[1]}
+            return sess.run(self.res, feed_dict=feed_dict)
+
+
 #######
 # Pad #
 #######

@@ -16,6 +16,7 @@
 
 import abc
 import copy
+import os
 import logging
 
 from typing import Callable, Dict, List
@@ -176,6 +177,7 @@ class BaseRuntime(object):
         # type: (List[XLayer], Dict[str,numpy.ndarray]) -> None
 
         fancy_logger.banner("INIT NET")
+        logger.info("initialize network runtime in %r.", os.path.abspath(__file__))
 
         self.net = []
         self.inputs = []
@@ -188,7 +190,7 @@ class BaseRuntime(object):
             logger.info("-----------------------")
             logger.info("Op idx: {}, op_name: {}, op_type: {} op shapes: {}"
                         .format(op_idx, op.name, op.type, op.shapes))
-            # logger.info(op)
+            logger.debug(op)
 
             xfdnn_layers = self._xfdnn_op_to_exec_op(op.type[0])(
                 op, input_shapes, params, batch_size=self.batch_size,
