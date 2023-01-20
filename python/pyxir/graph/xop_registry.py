@@ -19,6 +19,9 @@ Module for managing xops
 """
 
 from .xop import XOp
+import os
+import logging
+logger = logging.getLogger("pyxir")
 
 
 class XOpRegistry(object):
@@ -80,6 +83,7 @@ class XOpRegistry(object):
                                              transpose_transform_func):
             # type: (str, Function) -> None
             """ Registration of XOp transpose transformation function """
+            logger.info("register transform xop in %r.", os.path.abspath(__file__))
             if not self.is_xop(xop_name):
                 self.xops[xop_name] = XOp(xop_name)
 

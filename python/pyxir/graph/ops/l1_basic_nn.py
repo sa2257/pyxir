@@ -514,6 +514,13 @@ def multiply(attrs, in_xlayers):
 
     return {"shape": shape}
 
+@xop_register_op_transpose_transform("Multiply")
+def multiply_transpose_transform(X: XLayer, axes: List[int]) -> None:
+    """Transform Multiply layer with transpose according to provided axes"""
+
+    logging.info("PYXIR MODIFICATION: Multiply op was not registered for transpose transform.")
+    new_shape = TensorShape([X.shapes[i] for i in axes])
+    X.shapes = new_shape
 
 ########
 # ReLU #
@@ -631,6 +638,12 @@ def sigmoid(attrs, in_xlayers):
     shape = in_xlayers[0].shapes[:]
     return {"shape": shape}
 
+@xop_register_op_transpose_transform("Sigmoid")
+def sigmoid_transpose_transform(X: XLayer, axes: List[int]) -> None:
+    """Transform Sigmoid layer with transpose according to provided axes"""
+
+    new_shape = TensorShape([X.shapes[i] for i in axes])
+    X.shapes = new_shape
 
 ###########
 # Softmax #
